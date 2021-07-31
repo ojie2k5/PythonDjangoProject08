@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,7 +20,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-aj($%c!cz^6dx64%9d6=y)9#t6y2tcbt@c=le0jx5=!3qt@wu%'
+# The key is in .gitIgnore and saved in .env file
+# SECRET_KEY = 'django-insecure-aj($%c!cz^6dx64%9d6=y)9#t6y2tcbt@c=le0jx5=!3qt@wu%'
+from decouple import config
+
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -122,6 +126,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
+# THE FULL PATH TO A DIRECTORY WHERE DJANGO FOR UPLOADED FILES WILL SAVED
+# os.path.join is used to create directory correctly
+# no matter what operating system the user is using.
+# BASE_DIR - created by django that specifies the location of the projects directory
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Is a public url of the directory above
+MEDIA_URL = '/media/'
+
+
 # Using a new and updated bootstrap 4 for css template
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -129,3 +143,10 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# When a use logs in, django defaults to direct
+# users to the admin personal/profile page
+LOGIN_REDIRECT_URL = 'blog-home'
+
+# Redirect unauthorized users from accessing profile page to login page
+LOGIN_URL = 'login'
