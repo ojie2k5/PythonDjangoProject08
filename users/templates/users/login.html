@@ -1,0 +1,24 @@
+<! –– use extends to use base.html for a universal code to limit repeats. ––>
+<! –– block content is use to specify what part of the code is being extended using base.html -->
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+      <form method="Post">
+        {% csrf_token %}
+        <fieldset class="form-group">
+          <legend class="border-bottom mb-4">Log In</legend>
+         <!-- {{ form.as_p }}  render for a paragraph in views -->
+          {{ form|crispy }} <!-- uses a crispy form to style the form views -->
+        </fieldset>
+        <div class="form-group">
+          <button class="btn btn_outline_info" type="submit">Log In</button>
+        </div>
+      </form>
+      <div class="border-top pt-3">
+        <small class="text-muted">
+          Need An Account? <a class="ml-2" href="{% url 'register' %}">Register</a>
+        </small>
+      </div>
+    </div>
+{% endblock content %}

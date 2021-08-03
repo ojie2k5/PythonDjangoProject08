@@ -1,0 +1,48 @@
+<! –– use extends to use base.html for a universal code to limit repeats. ––>
+
+{% extends "blog/base.html" %}
+
+<! –– block content is use to specify what part of the code is being extended using base.html -->
+{% block content %}
+<h1 class="mb-3">Posts by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
+    {% for post in posts %}
+        <article class="media content-section">
+            <!-- below is the code for showing image of author at the home page -->
+            <img class="rounded-circle article-img" src="{{} post.author.profile.image.url}">
+            <!-- end of code-->
+            <div class="media-body">
+                <div class="article-metadata">
+                <a class="mr-2" href="{%  url 'user-posts' post.author.username %}">{{ post.author }}</a>
+                <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+                </div>
+                <!-- Below code for href is confirming for the specific html pattern
+                to look at <app>/<model>_<viewtype>.html at blog/views.py url patterns path-->
+                <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+                <!-- End of Code -->
+                <p class="article-content">{{ post.content }}</p>
+            </div>
+        </article>
+    {% endfor %}
+
+    <!-- Pagination code -->
+    {% if is_paginated %}
+
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?page=1">First</a> <!-- ? indicates no matter what current page a user is in -->
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %} <!-- | - a filter key-->
+                <a class="btn btn-outline mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a> <!-- ? indicates no matter what current page a user is in -->
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+    {% endif %}
+{% endblock content %}

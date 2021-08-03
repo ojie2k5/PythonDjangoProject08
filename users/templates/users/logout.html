@@ -1,0 +1,12 @@
+<! –– use extends to use base.html for a universal code to limit repeats. ––>
+<! –– block content is use to specify what part of the code is being extended using base.html -->
+{% extends "blog/base.html" %}
+{% block content %}
+    <h2>You have been log out</h2>
+      <div class="border-top pt-3">
+        <small class="text-muted">
+          Already Have An Account? <a class="ml-2" href="{% url 'login' %}">Log In Again</a>
+        </small>
+      </div>
+
+{% endblock content %}

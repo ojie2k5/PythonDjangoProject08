@@ -1,0 +1,37 @@
+<! –– use extends to use base.html for a universal code to limit repeats. ––>
+<! –– block content is use to specify what part of the code is being extended using base.html -->
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="content-section">
+  <div class="media">
+
+      <!-- For DEPLOYMENT stage use reference below
+      # For REFERENCE Go https://docs.djangoproject.com/en/3.2/howto/static-files/deployment/
+      # For DEVELOPMENT stage use reference below
+      # For REFERENCE Go to django.com https://docs.djangoproject.com/en/3.2/howto/static-files/ -->
+    <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+    <div class="media-body">
+      <h2 class="account-heading">{{ user.username }}</h2>
+      <p class="text-secondary">{{ user.email }}</p>
+    </div>
+  </div>
+
+  <!-- Code below are taken from register form and reformatted
+    added an attribute "enctype="multipart/form-data" for saving the image in the background -->
+  <form method="Post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+          <legend class="border-bottom mb-4">Profile Info</legend>
+         <!-- {{ form.as_p }}  render for a paragraph in views -->
+          {{ u_form|crispy }}
+          {{ p_form|crispy }}<!-- uses a crispy form to style the form views -->
+        </fieldset>
+        <div class="form-group">
+          <button class="btn btn_outline_info" type="submit">Update</button>
+        </div>
+      </form>
+</div>
+{% endblock content %}
+
+
