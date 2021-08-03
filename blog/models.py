@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.urls import reverse
 from django.contrib.auth.models import User
 
 
@@ -18,3 +19,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    # Reverse -  return the full url to that route as string
+    # Redirect - to a specific route
+
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={'pk': self.pk})  # pk - primary key

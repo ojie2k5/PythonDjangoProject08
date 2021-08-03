@@ -11,10 +11,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+from django.core.mail import send_mail
 
+from dotenv import load_dotenv
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -30,7 +32,6 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 # downloaded from terminal pip install django-crispy-forms
@@ -76,7 +77,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'TextCopyright.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -86,7 +86,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -106,7 +105,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -120,12 +118,15 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Default primary key field type
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
 
 # THE FULL PATH TO A DIRECTORY WHERE DJANGO FOR UPLOADED FILES WILL SAVED
 # os.path.join is used to create directory correctly
@@ -135,14 +136,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Is a public url of the directory above
 MEDIA_URL = '/media/'
 
-
 # Using a new and updated bootstrap 4 for css template
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # When a use logs in, django defaults to direct
 # users to the admin personal/profile page
@@ -150,3 +145,19 @@ LOGIN_REDIRECT_URL = 'blog-home'
 
 # Redirect unauthorized users from accessing profile page to login page
 LOGIN_URL = 'login'
+
+# To access .env you must install python-detenv and
+# add at top of settings.py the ff; from dotenv import load_dotenv, load_dotenv()
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.bizmail.yahoo.com'
+# EMAIL_PORT = 465
+# EMAIL_USE_SSL = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
+# EMAIL_HOST_FROM = os.environ.get('EMAIL_USER')
+# print(EMAIL_HOST_USER)
+# print(EMAIL_HOST_PASSWORD)
+
